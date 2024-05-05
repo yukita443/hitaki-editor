@@ -1,0 +1,35 @@
+{
+  "name": "hitaki-editor",
+  "productName": "HitakiEditor",
+  "version": "0.1.0",
+  "description": "A simple text editor using Monaco Editor and SolidJS",
+  "main": "out/main/index.js",
+  "author": "kaha440",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kaha440/hitaki-editor.git"
+  },
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
+    "typecheck:web": "tsc --noEmit -p tsconfig.web.json --composite false",
+    "typecheck": "npm run typecheck:node && npm run typecheck:web",
+    "start": "electron-vite preview",
+    "dev": "electron-vite dev",
+    "build": "npm run typecheck && electron-vite build",
+    "postinstall": "electron-builder install-app-deps",
+    "release": "npm run build && electron-builder --publish always"
+  },
+  "devDependencies": {
+    "@tsconfig/node22": "^22.0.0",
+    "@types/node": "^20.12.8",
+    "electron": "^30.0.2",
+    "electron-builder": "^24.9.1",
+    "electron-vite": "^2.0.0",
+    "solid-js": "^1.8.12",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.12",
+    "vite-plugin-solid": "^2.9.1"
+  }
+}

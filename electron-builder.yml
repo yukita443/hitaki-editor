@@ -1,0 +1,23 @@
+appId: com.github.kaha440.HitakiEditor
+artifactName: ${productName}-${version}-${os}.${ext}
+files: out/**/*
+win:
+  target:
+    - nsis
+    - zip
+nsis:
+  artifactName: ${productName}-Setup-${version}.${ext}
+  createDesktopShortcut: false
+  differentialPackage: false
+mac:
+  target: dmg
+  darkModeSupport: true
+dmg:
+  writeUpdateInfo: false
+linux:
+  target: AppImage
+npmRebuild: false
+publish:
+  provider: github
+  releaseType: release
+  publishAutoUpdate: false
