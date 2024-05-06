@@ -22,6 +22,7 @@
     "release": "npm run build && electron-builder --publish always"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.7.2",
     "@tsconfig/node22": "^22.0.0",
     "@types/node": "^20.12.8",
     "electron": "^30.0.2",
