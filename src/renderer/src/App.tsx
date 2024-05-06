@@ -1,7 +1,7 @@
-import type { Component } from 'solid-js'
+import type { Component } from 'solid-js';
 
 const App: Component = () => {
-  return (<></>)
-}
+  return <></>;
+};
 
-export default App
+export default App;

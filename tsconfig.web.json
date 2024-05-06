@@ -8,10 +8,7 @@
   ],
   "compilerOptions": {
     "composite": true,
-    "lib": [
-      "ES2023",
-      "DOM"
-    ],
+    "lib": ["ES2023", "DOM"],
     "jsx": "preserve",
     "jsxImportSource": "solid-js"
   }

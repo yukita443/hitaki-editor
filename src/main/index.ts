@@ -1,6 +1,6 @@
-import { app, BrowserWindow, shell } from 'electron';
-import path from 'path';
-import { env } from 'process';
+import path from 'node:path';
+import { env } from 'node:process';
+import { BrowserWindow, app, shell } from 'electron';
 
 const isDevelop = !app.isPackaged;
 const isMac = process.platform === 'darwin';
@@ -18,7 +18,7 @@ export function createWindow(): void {
     },
   });
 
-  mainWindow.webContents.setWindowOpenHandler(details => {
+  mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url);
 
     return {
