@@ -1,4 +1,4 @@
-appId: com.github.kaha440.HitakiEditor
+appId: com.github.yukita443.HitakiEditor
 artifactName: ${productName}-${version}-${os}.${ext}
 files: out/**/*
 win:
