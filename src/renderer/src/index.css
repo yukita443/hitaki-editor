@@ -1,0 +1,27 @@
+:root {
+  color-scheme: light dark;
+
+  --text-color: light-dark(black, #f1f1f1);
+  --border-color: light-dark(#e6e6e6, #373737);
+  --background-color: light-dark(white, #1e1e1e);
+  --background-hover-color: light-dark(#f1f1f1, #2f2f2f);
+}
+
+body {
+  font-size: 12px;
+  font-family: system-ui, sans-serif;
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+#root {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 22px;
+}
+
+.editor {
+  overflow: hidden;
+
+  grid-row: 1;
+}
