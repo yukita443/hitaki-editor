@@ -1,4 +1,4 @@
-import type { Theme, ThemeSource } from '../renderer/src/App.tsx';
+import type { Theme, ThemeSource } from '../types/theme.ts';
 
 declare global {
   interface Window {

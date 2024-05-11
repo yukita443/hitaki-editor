@@ -1,13 +1,7 @@
 import path from 'node:path';
 import { env } from 'node:process';
 import { BrowserWindow, app, ipcMain, nativeTheme, shell } from 'electron';
-
-export type ThemeSource = 'system' | 'light' | 'dark';
-
-export type Theme = {
-  source: ThemeSource;
-  isDark: boolean;
-};
+import type { Theme, ThemeSource } from '../types/theme.js';
 
 const isDevelop = !app.isPackaged;
 const isMac = process.platform === 'darwin';

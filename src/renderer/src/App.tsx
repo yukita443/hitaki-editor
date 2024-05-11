@@ -1,18 +1,13 @@
 import * as monaco from 'monaco-editor';
 import { type Component, type JSX, createResource, createSignal } from 'solid-js';
+import type { Theme, ThemeSource } from '../../types/theme.js';
 import Editor from './Editor.jsx';
 import StatusBar from './StatusBar.jsx';
 
 export type Indent = (typeof indentOptions)[number];
 export type Encoding = 'utf8' | 'utf16le';
 export type EOL = 'lf' | 'crlf';
-export type ThemeSource = 'system' | 'light' | 'dark';
 export type Lang = 'css' | 'html' | 'typescript';
-
-export type Theme = {
-  source: ThemeSource;
-  isDark: boolean;
-};
 
 export const indentOptions = [1, 2, 3, 4, 5, 6, 7, 8] as const;
 
