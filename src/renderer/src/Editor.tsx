@@ -23,6 +23,7 @@ const Editor: Component<Props> = (props) => {
       contextmenu: false,
       codeLens: false,
       autoDetectHighContrast: false,
+      fontFamily: '"SF Mono", Consolas, "DejaVu Mono", "Hiragino Sans", "Noto Sans JP", monospace',
     });
   });
 
