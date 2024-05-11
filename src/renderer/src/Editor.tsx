@@ -6,6 +6,8 @@ type Props = {
   indent: Indent;
   eol: EOL;
   lang: Lang;
+  isDark: boolean;
+  hidden: boolean;
 };
 
 const Editor: Component<Props> = (props) => {
@@ -25,6 +27,7 @@ const Editor: Component<Props> = (props) => {
   });
 
   createEffect(() => editor.updateOptions({ tabSize: props.indent }));
+  createEffect(() => editor.updateOptions({ theme: props.isDark ? 'vs-dark' : 'vs' }));
   createEffect(() => editor.getModel()?.setEOL(eolOptions[props.eol][1]));
 
   createEffect(() => {
@@ -34,10 +37,18 @@ const Editor: Component<Props> = (props) => {
     }
   });
 
+  createEffect((showed: boolean) => {
+    if (!props.hidden && !showed) {
+      editor.focus();
+      return true;
+    }
+    return false;
+  }, false);
+
   onCleanup(() => editor.dispose());
 
   // biome-ignore lint/style/noNonNullAssertion: https://docs.solidjs.com/configuration/typescript#ref-attribute
-  return <div class='editor' ref={editorRef!} />;
+  return <div class='editor' hidden={props.hidden} ref={editorRef!} />;
 };
 
 export default Editor;

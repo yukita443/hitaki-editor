@@ -1,5 +1,5 @@
 import * as monaco from 'monaco-editor';
-import { type Component, type JSX, createSignal } from 'solid-js';
+import { type Component, type JSX, createResource, createSignal } from 'solid-js';
 import Editor from './Editor.jsx';
 import StatusBar from './StatusBar.jsx';
 
@@ -8,6 +8,11 @@ export type Encoding = 'utf8' | 'utf16le';
 export type EOL = 'lf' | 'crlf';
 export type ThemeSource = 'system' | 'light' | 'dark';
 export type Lang = 'css' | 'html' | 'typescript';
+
+export type Theme = {
+  source: ThemeSource;
+  isDark: boolean;
+};
 
 export const indentOptions = [1, 2, 3, 4, 5, 6, 7, 8] as const;
 
@@ -40,6 +45,13 @@ const App: Component = () => {
   const [encoding, setEncoding] = createSignal<Encoding>('utf8');
   const [themeSource, setThemeSource] = createSignal<ThemeSource>('system');
 
+  const [theme, { refetch }] = createResource<Theme>(() => window.electron.getTheme(), {
+    initialValue: {
+      source: 'system',
+      isDark: false,
+    },
+  });
+
   const handleIndentChange: JSX.EventHandler<HTMLSelectElement, Event> = (e) => {
     setIndent(Number(e.currentTarget.value) as Indent);
   };
@@ -56,11 +68,20 @@ const App: Component = () => {
     setEncoding(e.currentTarget.value as Encoding);
   };
 
-  const handleThemeSourceChange: JSX.EventHandler<HTMLSelectElement, Event> = (e) => {};
+  const handleThemeSourceChange: JSX.EventHandler<HTMLSelectElement, Event> = (e) => {
+    window.electron.setThemeSource(e.currentTarget.value as ThemeSource);
+    refetch();
+  };
 
   return (
     <>
-      <Editor indent={indent()} eol={eol()} lang={lang()} />
+      <Editor
+        indent={indent()}
+        eol={eol()}
+        lang={lang()}
+        isDark={theme().isDark}
+        hidden={theme.state !== 'ready'}
+      />
       <StatusBar
         indent={indent()}
         eol={eol()}

@@ -1,6 +1,13 @@
 import path from 'node:path';
 import { env } from 'node:process';
-import { BrowserWindow, app, shell } from 'electron';
+import { BrowserWindow, app, ipcMain, nativeTheme, shell } from 'electron';
+
+export type ThemeSource = 'system' | 'light' | 'dark';
+
+export type Theme = {
+  source: ThemeSource;
+  isDark: boolean;
+};
 
 const isDevelop = !app.isPackaged;
 const isMac = process.platform === 'darwin';
@@ -12,6 +19,7 @@ export function createWindow(): void {
     minWidth: 500,
     minHeight: 100,
     title: 'Untitled',
+    backgroundColor: nativeTheme.shouldUseDarkColors ? '#1e1e1e' : '#ffffff',
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.mjs'),
       sandbox: false,
@@ -20,10 +28,7 @@ export function createWindow(): void {
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url);
-
-    return {
-      action: 'deny',
-    };
+    return { action: 'deny' };
   });
 
   if (isDevelop && env.ELECTRON_RENDERER_URL != null) {
@@ -46,3 +51,15 @@ app.on('window-all-closed', () => {
     app.quit();
   }
 });
+
+ipcMain.on('set-theme-source', (event, source: ThemeSource) => {
+  nativeTheme.themeSource = source;
+});
+
+ipcMain.handle(
+  'get-theme',
+  (): Theme => ({
+    source: nativeTheme.themeSource,
+    isDark: nativeTheme.shouldUseDarkColors,
+  }),
+);
