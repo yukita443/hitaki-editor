@@ -43,7 +43,6 @@ const App: Component = () => {
   const [eol, setEOL] = createSignal<EOL>('lf');
   const [lang, setLang] = createSignal<Lang>('html');
   const [encoding, setEncoding] = createSignal<Encoding>('utf8');
-  const [themeSource, setThemeSource] = createSignal<ThemeSource>('system');
 
   const [theme, { refetch }] = createResource<Theme>(() => window.electron.getTheme(), {
     initialValue: {
@@ -87,7 +86,7 @@ const App: Component = () => {
         eol={eol()}
         lang={lang()}
         encoding={encoding()}
-        themeSource={themeSource()}
+        themeSource={theme().source}
         onIndentChange={handleIndentChange}
         onEOLChange={handleEOLChange}
         onLangChange={handleLangChange}
