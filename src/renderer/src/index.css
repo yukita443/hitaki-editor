@@ -25,3 +25,51 @@ body {
 
   grid-row: 1;
 }
+
+.statusbar {
+  border-top: solid 1px var(--border-color);
+  background-color: var(--background-color);
+  user-select: none;
+
+  padding: 0 10px;
+  display: flex;
+  grid-row: 2;
+}
+
+.select {
+  display: flex;
+  position: relative;
+  align-items: center;
+  width: fit-content;
+}
+
+.select + .select {
+  border-left: solid 1px var(--border-color);
+}
+
+select {
+  color: inherit;
+
+  padding-left: 6px;
+  height: 100%;
+}
+
+select.small {
+  width: 30px;
+}
+
+select.medium {
+  width: 60px;
+}
+
+select.large {
+  width: 95px;
+}
+
+select:hover {
+  background-color: var(--background-hover-color);
+}
+
+.space {
+  flex: 1;
+}

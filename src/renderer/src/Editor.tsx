@@ -1,7 +1,14 @@
 import * as monaco from 'monaco-editor';
-import { type Component, onCleanup, onMount } from 'solid-js';
+import { type Component, createEffect, onCleanup, onMount } from 'solid-js';
+import { type EOL, type Indent, type Lang, eolOptions } from './App.jsx';
 
-const Editor: Component = () => {
+type Props = {
+  indent: Indent;
+  eol: EOL;
+  lang: Lang;
+};
+
+const Editor: Component<Props> = (props) => {
   let editorRef: HTMLDivElement;
   let editor: monaco.editor.IStandaloneCodeEditor;
 
@@ -15,6 +22,16 @@ const Editor: Component = () => {
       codeLens: false,
       autoDetectHighContrast: false,
     });
+  });
+
+  createEffect(() => editor.updateOptions({ tabSize: props.indent }));
+  createEffect(() => editor.getModel()?.setEOL(eolOptions[props.eol][1]));
+
+  createEffect(() => {
+    const model = editor.getModel();
+    if (model != null) {
+      monaco.editor.setModelLanguage(model, props.lang);
+    }
   });
 
   onCleanup(() => editor.dispose());
