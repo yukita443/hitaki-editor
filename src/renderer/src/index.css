@@ -70,6 +70,14 @@ select:hover {
   background-color: var(--background-hover-color);
 }
 
+.select-icon {
+  font-size: 14px;
+  pointer-events: none;
+
+  position: absolute;
+  right: 2px;
+}
+
 .space {
   flex: 1;
 }

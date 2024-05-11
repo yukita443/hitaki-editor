@@ -1,3 +1,5 @@
+import { Icon } from '@iconify-icon/solid';
+import expandIcon from '@iconify-icons/material-symbols/expand-all.js';
 import { type Component, Index, type JSX } from 'solid-js';
 import {
   type EOL,
@@ -39,6 +41,7 @@ const StatusBar: Component<Props> = (props) => {
             )}
           </Index>
         </select>
+        <Icon class='select-icon' icon={expandIcon} />
       </div>
       <div class='select'>
         <select class='large' onChange={props.onThemeSourceChange}>
@@ -50,6 +53,7 @@ const StatusBar: Component<Props> = (props) => {
             )}
           </Index>
         </select>
+        <Icon class='select-icon' icon={expandIcon} />
       </div>
       <div class='space' />
       <div class='select'>
@@ -63,6 +67,7 @@ const StatusBar: Component<Props> = (props) => {
             )}
           </Index>
         </select>
+        <Icon class='select-icon' icon={expandIcon} />
       </div>
       <div class='select'>
         <select class='large' onChange={props.onEncodingChange}>
@@ -74,6 +79,7 @@ const StatusBar: Component<Props> = (props) => {
             )}
           </Index>
         </select>
+        <Icon class='select-icon' icon={expandIcon} />
       </div>
       <div class='select'>
         <select class='medium' onChange={props.onEOLChange}>
@@ -85,6 +91,7 @@ const StatusBar: Component<Props> = (props) => {
             )}
           </Index>
         </select>
+        <Icon class='select-icon' icon={expandIcon} />
       </div>
     </div>
   );
