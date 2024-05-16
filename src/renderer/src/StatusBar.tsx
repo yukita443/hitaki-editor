@@ -1,12 +1,12 @@
 import { Icon } from '@iconify-icon/solid';
 import expandIcon from '@iconify-icons/material-symbols/expand-all.js';
 import { type Component, Index, type JSX } from 'solid-js';
+import type { ThemeSource } from '../../types/theme.js';
 import {
   type EOL,
   type Encoding,
   type Indent,
   type Lang,
-  type ThemeSource,
   encodingOptions,
   eolOptions,
   indentOptions,
