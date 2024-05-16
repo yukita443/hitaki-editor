@@ -1,13 +1,25 @@
 import path from 'node:path';
 import { env } from 'node:process';
-import { BrowserWindow, app, ipcMain, nativeTheme, shell } from 'electron';
+import { BrowserWindow, Menu, app, ipcMain, nativeTheme, shell } from 'electron';
 import type { Theme, ThemeSource } from '../types/theme.js';
+import { createMenu, setMenuEnabled } from './menu.js';
 
 const isDevelop = !app.isPackaged;
 const isMac = process.platform === 'darwin';
 
-export function createWindow(): void {
+export function createWindow(): BrowserWindow {
+  const basePos = BrowserWindow.getFocusedWindow()?.getPosition();
+
   const mainWindow = new BrowserWindow({
+    ...(basePos == null
+      ? {
+          x: 200,
+          y: 150,
+        }
+      : {
+          x: basePos[0] + 29,
+          y: basePos[1] + 29,
+        }),
     width: 700,
     height: 450,
     minWidth: 500,
@@ -20,6 +32,8 @@ export function createWindow(): void {
     },
   });
 
+  setMenuEnabled(true);
+
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url);
     return { action: 'deny' };
@@ -30,9 +44,14 @@ export function createWindow(): void {
   } else {
     mainWindow.loadFile(path.join(__dirname, '../renderer/index.html'));
   }
+
+  return mainWindow;
 }
 
-app.whenReady().then(() => createWindow());
+app.whenReady().then(() => {
+  Menu.setApplicationMenu(createMenu());
+  createWindow();
+});
 
 app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
@@ -41,7 +60,9 @@ app.on('activate', () => {
 });
 
 app.on('window-all-closed', () => {
-  if (!isMac) {
+  if (isMac) {
+    setMenuEnabled(false);
+  } else {
     app.quit();
   }
 });

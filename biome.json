@@ -1,5 +1,12 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.7.2/schema.json",
+  "linter": {
+    "rules": {
+      "complexity": {
+        "noForEach": "off"
+      }
+    }
+  },
   "formatter": {
     "indentStyle": "space",
     "lineWidth": 100
