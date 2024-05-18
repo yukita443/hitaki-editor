@@ -1,12 +1,12 @@
-import * as monaco from 'monaco-editor';
+import type * as monaco from 'monaco-editor';
 import { type Component, type JSX, createResource, createSignal } from 'solid-js';
-import type { Theme, ThemeSource } from '../../types/theme.js';
+import type { Theme, ThemeSource } from '../../../types/theme.js';
 import Editor from './Editor.jsx';
 import StatusBar from './StatusBar.jsx';
 
 export type Indent = (typeof indentOptions)[number];
 export type Encoding = 'utf8' | 'utf16le';
-export type EOL = 'lf' | 'crlf';
+export type EOL = keyof typeof monaco.editor.EndOfLineSequence;
 export type Lang = 'css' | 'html' | 'typescript';
 
 export const indentOptions = [1, 2, 3, 4, 5, 6, 7, 8] as const;
@@ -16,9 +16,9 @@ export const encodingOptions: Record<Encoding, string> = {
   utf16le: 'UTF-16LE',
 };
 
-export const eolOptions: Record<EOL, [string, monaco.editor.EndOfLineSequence]> = {
-  lf: ['LF', monaco.editor.EndOfLineSequence.LF],
-  crlf: ['CRLF', monaco.editor.EndOfLineSequence.CRLF],
+export const eolOptions: Record<EOL, string> = {
+  LF: 'LF',
+  CRLF: 'CRLF',
 };
 
 export const langOptions: Record<Lang, string> = {
@@ -35,7 +35,7 @@ export const themeSourceOptions: Record<ThemeSource, string> = {
 
 const App: Component = () => {
   const [indent, setIndent] = createSignal<Indent>(4);
-  const [eol, setEOL] = createSignal<EOL>('lf');
+  const [eol, setEOL] = createSignal<EOL>('LF');
   const [lang, setLang] = createSignal<Lang>('html');
   const [encoding, setEncoding] = createSignal<Encoding>('utf8');
 
