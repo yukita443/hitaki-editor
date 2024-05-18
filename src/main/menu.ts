@@ -47,24 +47,6 @@ export function createMenu(): Menu {
         { role: 'copy' },
         { role: 'paste' },
         { role: 'selectAll' },
-        { type: 'separator' },
-        {
-          label: 'Find',
-          accelerator: 'CmdOrCtrl+F',
-        },
-        {
-          label: 'Replace',
-          accelerator: 'CmdOrCtrl+Alt+F',
-        },
-        { type: 'separator' },
-        {
-          label: 'Format',
-          accelerator: 'Shift+Alt+F',
-        },
-        {
-          label: 'Suggest',
-          accelerator: 'Ctrl+Space',
-        },
       ],
     },
     { role: 'viewMenu' },
@@ -77,9 +59,7 @@ export function createMenu(): Menu {
 export function setMenuEnabled(enabled: boolean) {
   Menu.getApplicationMenu()?.items.forEach((item) => {
     item.submenu?.items
-      .filter((e) =>
-        ['Save', 'Save As...', 'Find', 'Replace', 'Format', 'Suggest'].includes(e.label),
-      )
+      .filter((e) => ['Save', 'Save As...'].includes(e.label))
       .forEach((e) => {
         e.enabled = enabled;
       });

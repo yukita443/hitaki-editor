@@ -21,7 +21,6 @@ const Editor: Component<Props> = (props) => {
       minimap: { enabled: false },
       roundedSelection: false,
       renderWhitespace: 'none',
-      contextmenu: false,
       codeLens: false,
       autoDetectHighContrast: false,
       fontFamily: '"SF Mono", Consolas, "DejaVu Mono", "Hiragino Sans", "Noto Sans JP", monospace',
