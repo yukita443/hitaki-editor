@@ -1,12 +1,13 @@
 import * as monaco from 'monaco-editor';
 import { type Component, createEffect, onCleanup, onMount } from 'solid-js';
+import type { Theme } from '../../types/theme.js';
 import { type EOL, type Indent, type Lang, eolOptions } from './App.jsx';
 
 type Props = {
   indent: Indent;
   eol: EOL;
   lang: Lang;
-  isDark: boolean;
+  theme: Theme;
   hidden: boolean;
 };
 
@@ -28,7 +29,7 @@ const Editor: Component<Props> = (props) => {
   });
 
   createEffect(() => editor.updateOptions({ tabSize: props.indent }));
-  createEffect(() => editor.updateOptions({ theme: props.isDark ? 'vs-dark' : 'vs' }));
+  createEffect(() => editor.updateOptions({ theme: props.theme.isDark ? 'vs-dark' : 'vs' }));
   createEffect(() => editor.getModel()?.setEOL(eolOptions[props.eol][1]));
 
   createEffect(() => {

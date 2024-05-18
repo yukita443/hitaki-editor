@@ -9,4 +9,5 @@ declare global {
 export interface ElectronAPI {
   setThemeSource: (source: ThemeSource) => void;
   getTheme: () => Promise<Theme>;
+  updateTheme: (callback: () => void) => void;
 }

@@ -46,6 +46,8 @@ const App: Component = () => {
     },
   });
 
+  window.electron.updateTheme(() => refetch());
+
   const handleIndentChange: JSX.EventHandler<HTMLSelectElement, Event> = (e) => {
     setIndent(Number(e.currentTarget.value) as Indent);
   };
@@ -64,7 +66,6 @@ const App: Component = () => {
 
   const handleThemeSourceChange: JSX.EventHandler<HTMLSelectElement, Event> = (e) => {
     window.electron.setThemeSource(e.currentTarget.value as ThemeSource);
-    refetch();
   };
 
   return (
@@ -73,7 +74,7 @@ const App: Component = () => {
         indent={indent()}
         eol={eol()}
         lang={lang()}
-        isDark={theme().isDark}
+        theme={theme()}
         hidden={theme.state !== 'ready'}
       />
       <StatusBar
@@ -81,7 +82,7 @@ const App: Component = () => {
         eol={eol()}
         lang={lang()}
         encoding={encoding()}
-        themeSource={theme().source}
+        theme={theme()}
         onIndentChange={handleIndentChange}
         onEOLChange={handleEOLChange}
         onLangChange={handleLangChange}

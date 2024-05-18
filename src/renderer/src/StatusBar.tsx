@@ -1,7 +1,7 @@
 import { Icon } from '@iconify-icon/solid';
 import expandIcon from '@iconify-icons/material-symbols/expand-all.js';
 import { type Component, Index, type JSX } from 'solid-js';
-import type { ThemeSource } from '../../types/theme.js';
+import type { Theme } from '../../types/theme.js';
 import {
   type EOL,
   type Encoding,
@@ -19,7 +19,7 @@ type Props = {
   eol: EOL;
   lang: Lang;
   encoding: Encoding;
-  themeSource: ThemeSource;
+  theme: Theme;
 
   onIndentChange: JSX.EventHandler<HTMLSelectElement, Event>;
   onEOLChange: JSX.EventHandler<HTMLSelectElement, Event>;
@@ -47,7 +47,7 @@ const StatusBar: Component<Props> = (props) => {
         <select class='large' onChange={props.onThemeSourceChange}>
           <Index each={Object.entries(themeSourceOptions)}>
             {(e) => (
-              <option value={e()[0]} selected={e()[0] === props.themeSource}>
+              <option value={e()[0]} selected={e()[0] === props.theme.source}>
                 {e()[1]}
               </option>
             )}
