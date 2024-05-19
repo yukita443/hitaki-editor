@@ -1,8 +1,9 @@
 import type * as monaco from 'monaco-editor';
-import { type Component, type JSX, createResource, createSignal } from 'solid-js';
+import { type Component, type JSX, createResource, createSignal, lazy } from 'solid-js';
 import type { Theme, ThemeSource } from '../../../types/theme.js';
-import Editor from './Editor.jsx';
 import StatusBar from './StatusBar.jsx';
+
+const Editor = lazy(() => import('./Editor.jsx'));
 
 export type Indent = (typeof indentOptions)[number];
 export type Encoding = 'utf8' | 'utf16le';
