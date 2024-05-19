@@ -7,7 +7,26 @@ import StatusBar from './StatusBar.jsx';
 export type Indent = (typeof indentOptions)[number];
 export type Encoding = 'utf8' | 'utf16le';
 export type EOL = keyof typeof monaco.editor.EndOfLineSequence;
-export type Lang = 'css' | 'html' | 'typescript';
+
+export type Lang =
+  | 'bat'
+  | 'csharp'
+  | 'cpp'
+  | 'css'
+  | 'go'
+  | 'html'
+  | 'java'
+  | 'javascript'
+  | 'json'
+  | 'markdown'
+  | 'plaintext'
+  | 'powershell'
+  | 'python'
+  | 'rust'
+  | 'shell'
+  | 'typescript'
+  | 'xml'
+  | 'yaml';
 
 export const indentOptions = [1, 2, 3, 4, 5, 6, 7, 8] as const;
 
@@ -22,9 +41,24 @@ export const eolOptions: Record<EOL, string> = {
 };
 
 export const langOptions: Record<Lang, string> = {
+  bat: 'Batch',
+  csharp: 'C#',
+  cpp: 'C/C++',
   css: 'CSS',
+  go: 'Go',
   html: 'HTML',
+  java: 'Java',
+  javascript: 'JavaScript',
+  json: 'JSON',
+  markdown: 'Markdown',
+  plaintext: 'Plain Text',
+  powershell: 'PowerShell',
+  python: 'Python',
+  rust: 'Rust',
+  shell: 'Shell Script',
   typescript: 'TypeScript',
+  xml: 'XML',
+  yaml: 'YAML',
 };
 
 export const themeSourceOptions: Record<ThemeSource, string> = {
@@ -36,7 +70,7 @@ export const themeSourceOptions: Record<ThemeSource, string> = {
 const App: Component = () => {
   const [indent, setIndent] = createSignal<Indent>(4);
   const [eol, setEOL] = createSignal<EOL>('LF');
-  const [lang, setLang] = createSignal<Lang>('html');
+  const [lang, setLang] = createSignal<Lang>('plaintext');
   const [encoding, setEncoding] = createSignal<Encoding>('utf8');
 
   const [theme, { refetch }] = createResource<Theme>(() => window.electron.getTheme(), {
