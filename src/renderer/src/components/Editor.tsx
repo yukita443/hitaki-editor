@@ -8,7 +8,6 @@ type Props = {
   eol: EOL;
   lang: Lang;
   theme: Theme;
-  hidden: boolean;
 };
 
 const Editor: Component<Props> = (props) => {
@@ -25,6 +24,8 @@ const Editor: Component<Props> = (props) => {
       autoDetectHighContrast: false,
       fontFamily: '"SF Mono", Consolas, "DejaVu Mono", "Hiragino Sans", "Noto Sans JP", monospace',
     });
+
+    editor.focus();
   });
 
   createEffect(() => editor.updateOptions({ tabSize: props.indent }));
@@ -38,18 +39,10 @@ const Editor: Component<Props> = (props) => {
     }
   });
 
-  createEffect((showed: boolean) => {
-    if (!props.hidden && !showed) {
-      editor.focus();
-      return true;
-    }
-    return false;
-  }, false);
-
   onCleanup(() => editor.dispose());
 
   // biome-ignore lint/style/noNonNullAssertion: https://docs.solidjs.com/configuration/typescript#ref-attribute
-  return <div class='editor' hidden={props.hidden} ref={editorRef!} />;
+  return <div class='editor' ref={editorRef!} />;
 };
 
 export default Editor;

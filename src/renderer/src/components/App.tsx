@@ -105,13 +105,7 @@ const App: Component = () => {
 
   return (
     <>
-      <Editor
-        indent={indent()}
-        eol={eol()}
-        lang={lang()}
-        theme={theme()}
-        hidden={theme.state !== 'ready'}
-      />
+      <Editor indent={indent()} eol={eol()} lang={lang()} theme={theme()} />
       <StatusBar
         indent={indent()}
         eol={eol()}
