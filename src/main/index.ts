@@ -79,3 +79,7 @@ ipcMain.handle(
     isDark: nativeTheme.shouldUseDarkColors,
   }),
 );
+
+nativeTheme.on('updated', () => {
+  BrowserWindow.getAllWindows().forEach((e) => e.webContents.send('update-theme'));
+});
