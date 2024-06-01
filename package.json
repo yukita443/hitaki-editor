@@ -29,7 +29,7 @@
     "@iconify-icons/material-symbols": "^1.2.58",
     "@tsconfig/node22": "^22.0.0",
     "@types/node": "^20.12.8",
-    "electron": "^30.0.2",
+    "electron": "^30.0.9",
     "electron-builder": "^24.9.1",
     "electron-vite": "^2.0.0",
     "monaco-editor": "^0.48.0",
