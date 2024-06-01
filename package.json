@@ -22,7 +22,7 @@
     "release": "npm run build && electron-builder --publish always"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.7.2",
+    "@biomejs/biome": "^1.7.3",
     "@fontsource/dejavu-mono": "^5.0.11",
     "@fontsource/noto-sans-jp": "^5.0.19",
     "@iconify-icon/solid": "^2.1.1",
