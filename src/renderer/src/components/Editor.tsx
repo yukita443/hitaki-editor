@@ -22,7 +22,6 @@ const Editor: Component<Props> = (props) => {
       renderWhitespace: 'none',
       codeLens: false,
       autoDetectHighContrast: false,
-      fontFamily: '"SF Mono", Consolas, "DejaVu Mono", "Hiragino Sans", "Noto Sans JP", monospace',
     });
 
     editor.focus();
