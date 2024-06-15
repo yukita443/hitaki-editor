@@ -1,3 +1,4 @@
+import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 import { defineConfig, externalizeDepsPlugin } from 'electron-vite';
 import solid from 'vite-plugin-solid';
 
@@ -9,6 +10,6 @@ export default defineConfig({
     plugins: [externalizeDepsPlugin()],
   },
   renderer: {
-    plugins: [solid()],
+    plugins: [solid(), vanillaExtractPlugin()],
   },
 });

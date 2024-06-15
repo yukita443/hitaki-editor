@@ -1,6 +1,7 @@
 import type * as monaco from 'monaco-editor';
 import { type Component, type JSX, createResource, createSignal, lazy } from 'solid-js';
 import type { Theme, ThemeSource } from '../../../types/theme.js';
+import * as styles from './App.css.js';
 import StatusBar from './StatusBar.jsx';
 
 const Editor = lazy(() => import('./Editor.jsx'));
@@ -104,7 +105,7 @@ const App: Component = () => {
   };
 
   return (
-    <>
+    <div class={styles.root}>
       <Editor indent={indent()} eol={eol()} lang={lang()} theme={theme()} />
       <StatusBar
         indent={indent()}
@@ -118,7 +119,7 @@ const App: Component = () => {
         onEncodingChange={handleEncodingChange}
         onThemeSourceChange={handleThemeSourceChange}
       />
-    </>
+    </div>
   );
 };
 

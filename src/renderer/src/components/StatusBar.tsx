@@ -12,6 +12,7 @@ import {
   themeSourceOptions,
 } from './App.jsx';
 import Select from './Select.jsx';
+import * as styles from './StatusBar.css.js';
 
 type Props = {
   indent: Indent;
@@ -29,7 +30,7 @@ type Props = {
 
 const StatusBar: Component<Props> = (props) => {
   return (
-    <div class='statusbar'>
+    <div class={styles.root}>
       <Select
         size='large'
         each={Object.entries(langOptions)}
@@ -42,7 +43,7 @@ const StatusBar: Component<Props> = (props) => {
         current={props.theme.source}
         onChange={props.onThemeSourceChange}
       />
-      <div class='space' />
+      <div class={styles.space} />
       <Select
         label='Indent:'
         size='small'
