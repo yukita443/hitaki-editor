@@ -1,4 +1,4 @@
-import type { FileData, FileIdentifier } from '../types/file.ts';
+import type { Encoding, FileData, FileIdentifier } from '../types/file.ts';
 import type { Theme, ThemeSource } from '../types/theme.ts';
 
 declare global {
@@ -13,10 +13,10 @@ export interface ElectronAPI {
   updateTheme: (callback: () => void) => void;
   requestOpenFile: (callback: (initFile?: FileIdentifier & FileData) => void) => void;
   cannotOpenFile: (initFile?: FileIdentifier & FileData) => void;
-  openFile: (encoding: string) => Promise<(FileIdentifier & FileData) | undefined>;
+  openFile: (encoding: Encoding) => Promise<(FileIdentifier & FileData) | undefined>;
   requestSaveFile: (callback: (newFile: boolean) => void) => void;
   saveFile: (
     file: Partial<FileIdentifier> & FileData,
-    encoding: string,
+    encoding: Encoding,
   ) => Promise<FileIdentifier | undefined>;
 }

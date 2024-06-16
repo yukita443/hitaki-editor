@@ -1,10 +1,10 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { type BrowserWindow, dialog } from 'electron';
-import type { FileData, FileIdentifier } from '../types/file.js';
+import type { Encoding, FileData, FileIdentifier } from '../types/file.js';
 
 export async function openFile(
-  encoding = 'utf8',
+  encoding?: Encoding,
 ): Promise<(FileIdentifier & FileData) | undefined> {
   const result = await dialog.showOpenDialog({ properties: ['openFile'] });
   if (result.canceled) return;
@@ -28,14 +28,14 @@ export async function openFile(
   return {
     path: filePath,
     name: path.basename(filePath),
-    content: buffer.toString('utf8'),
+    content: buffer.toString(encoding),
   };
 }
 
 export async function saveFile(
   window: BrowserWindow,
   file: Partial<FileIdentifier> & FileData,
-  encoding = 'utf8',
+  encoding: Encoding,
 ): Promise<FileIdentifier | undefined> {
   const filePath = file.path ?? (await dialog.showSaveDialog(window, {})).filePath;
   if (filePath == null || filePath === '') {
@@ -43,7 +43,7 @@ export async function saveFile(
   }
 
   try {
-    await fs.writeFile(filePath, file.content, 'utf8');
+    await fs.writeFile(filePath, file.content, encoding);
   } catch (error) {
     if (error instanceof Error) {
       dialog.showMessageBox(window, {

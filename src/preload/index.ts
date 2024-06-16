@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron';
-import type { FileData, FileIdentifier } from '../types/file.js';
+import type { Encoding, FileData, FileIdentifier } from '../types/file.js';
 import type { Theme, ThemeSource } from '../types/theme.js';
 
 contextBridge.exposeInMainWorld('electron', {
@@ -16,7 +16,7 @@ contextBridge.exposeInMainWorld('electron', {
   cannotOpenFile: (initFile?: FileIdentifier & FileData): void => {
     ipcRenderer.send('cannot-open-file', initFile);
   },
-  openFile: (encoding: string): Promise<(FileIdentifier & FileData) | undefined> => {
+  openFile: (encoding: Encoding): Promise<(FileIdentifier & FileData) | undefined> => {
     return ipcRenderer.invoke('open-file', encoding);
   },
   requestSaveFile: (callback: (newFile: boolean) => void): void => {
@@ -24,7 +24,7 @@ contextBridge.exposeInMainWorld('electron', {
   },
   saveFile: (
     file: Partial<FileIdentifier> & FileData,
-    encoding: string,
+    encoding: Encoding,
   ): Promise<FileIdentifier | undefined> => {
     return ipcRenderer.invoke('save-file', file, encoding);
   },

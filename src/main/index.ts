@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { env } from 'node:process';
 import { BrowserWindow, Menu, app, ipcMain, nativeTheme, shell } from 'electron';
-import type { FileData, FileIdentifier } from '../types/file.js';
+import type { Encoding, FileData, FileIdentifier } from '../types/file.js';
 import type { Theme, ThemeSource } from '../types/theme.js';
 import { openFile, saveFile } from './file.js';
 import { createMenu, setMenuEnabled } from './menu.js';
@@ -99,7 +99,7 @@ ipcMain.on('cannot-open-file', async (event, initFile?: FileIdentifier & FileDat
   });
 });
 
-ipcMain.handle('open-file', async (event, encoding: string) => {
+ipcMain.handle('open-file', async (event, encoding: Encoding) => {
   const window = BrowserWindow.fromWebContents(event.sender);
   const file = await openFile(encoding);
   if (file == null || window == null) return;
@@ -113,7 +113,7 @@ ipcMain.handle('open-file', async (event, encoding: string) => {
 
 ipcMain.handle(
   'save-file',
-  async (event, file: Partial<FileIdentifier> & FileData, encoding: string) => {
+  async (event, file: Partial<FileIdentifier> & FileData, encoding: Encoding) => {
     const window = BrowserWindow.fromWebContents(event.sender);
     if (window == null) return;
     const fileIdentifier = await saveFile(window, file, encoding);

@@ -6,3 +6,5 @@ export type FileIdentifier = {
 export type FileData = {
   content: string;
 };
+
+export type Encoding = 'utf8' | 'utf16le';

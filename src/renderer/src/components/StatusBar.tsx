@@ -1,8 +1,8 @@
 import type { Component, JSX } from 'solid-js';
+import type { Encoding } from '../../../types/file.js';
 import type { Theme } from '../../../types/theme.js';
 import {
   type EOL,
-  type Encoding,
   type Indent,
   type Lang,
   encodingOptions,

@@ -7,7 +7,7 @@ import {
   createSignal,
   lazy,
 } from 'solid-js';
-import type { FileIdentifier } from '../../../types/file.js';
+import type { Encoding, FileIdentifier } from '../../../types/file.js';
 import type { Theme, ThemeSource } from '../../../types/theme.js';
 import * as styles from './App.css.js';
 import StatusBar from './StatusBar.jsx';
@@ -15,7 +15,6 @@ import StatusBar from './StatusBar.jsx';
 const Editor = lazy(() => import('./Editor.jsx'));
 
 export type Indent = (typeof indentOptions)[number];
-export type Encoding = 'utf8' | 'utf16le';
 export type EOL = keyof typeof monaco.editor.EndOfLineSequence;
 
 export type Lang =
