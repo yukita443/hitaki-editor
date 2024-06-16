@@ -1,5 +1,13 @@
 import type * as monaco from 'monaco-editor';
-import { type Component, type JSX, createResource, createSignal, lazy } from 'solid-js';
+import {
+  type Component,
+  type JSX,
+  createEffect,
+  createResource,
+  createSignal,
+  lazy,
+} from 'solid-js';
+import type { FileIdentifier } from '../../../types/file.js';
 import type { Theme, ThemeSource } from '../../../types/theme.js';
 import * as styles from './App.css.js';
 import StatusBar from './StatusBar.jsx';
@@ -70,6 +78,14 @@ export const themeSourceOptions: Record<ThemeSource, string> = {
 };
 
 const App: Component = () => {
+  let modified = false;
+  let filePath: string | undefined;
+  let content: string;
+
+  const [title, setTitle] = createSignal('Untitled');
+  const [isSaved, setSaved] = createSignal(true);
+  const [initContent, setInitContent] = createSignal('');
+
   const [indent, setIndent] = createSignal<Indent>(4);
   const [eol, setEOL] = createSignal<EOL>('LF');
   const [lang, setLang] = createSignal<Lang>('plaintext');
@@ -82,7 +98,48 @@ const App: Component = () => {
     },
   });
 
+  createEffect(() => {
+    document.title = title() + (isSaved() ? '' : ' *');
+  });
+
   window.electron.updateTheme(() => refetch());
+
+  window.electron.requestOpenFile(async (initFile) => {
+    if (modified) {
+      window.electron.cannotOpenFile(initFile);
+      return;
+    }
+
+    const file = initFile ?? (await window.electron.openFile(encoding()));
+    if (file == null) return;
+
+    modified = true;
+    filePath = file.path;
+    setInitContent(file.content);
+    setTitle(file.name);
+  });
+
+  window.electron.requestSaveFile(async (newFile) => {
+    let file: FileIdentifier | undefined;
+    if (!newFile && filePath != null) {
+      file = await window.electron.saveFile({ path: filePath, content: content }, encoding());
+    } else {
+      file = await window.electron.saveFile({ content: content }, encoding());
+    }
+    if (file?.name == null || file?.path == null) return;
+
+    filePath = file.path;
+    setSaved(true);
+    setTitle(file.name);
+  });
+
+  const handleEditorChange = (e: monaco.editor.IModelContentChangedEvent, value: string) => {
+    if (!e.isFlush) {
+      modified = true;
+      content = value;
+      setSaved(false);
+    }
+  };
 
   const handleIndentChange: JSX.EventHandler<HTMLSelectElement, Event> = (e) => {
     setIndent(Number(e.currentTarget.value) as Indent);
@@ -106,7 +163,14 @@ const App: Component = () => {
 
   return (
     <div class={styles.root}>
-      <Editor indent={indent()} eol={eol()} lang={lang()} theme={theme()} />
+      <Editor
+        initValue={initContent()}
+        indent={indent()}
+        eol={eol()}
+        lang={lang()}
+        theme={theme()}
+        onChange={handleEditorChange}
+      />
       <StatusBar
         indent={indent()}
         eol={eol()}

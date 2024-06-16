@@ -1,7 +1,9 @@
 import path from 'node:path';
 import { env } from 'node:process';
 import { BrowserWindow, Menu, app, ipcMain, nativeTheme, shell } from 'electron';
+import type { FileData, FileIdentifier } from '../types/file.js';
 import type { Theme, ThemeSource } from '../types/theme.js';
+import { openFile, saveFile } from './file.js';
 import { createMenu, setMenuEnabled } from './menu.js';
 
 const isDevelop = !app.isPackaged;
@@ -32,7 +34,9 @@ export function createWindow(): BrowserWindow {
     },
   });
 
-  setMenuEnabled(true);
+  if (BrowserWindow.getAllWindows().length === 1) {
+    setMenuEnabled(true);
+  }
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url);
@@ -78,6 +82,49 @@ ipcMain.handle(
     source: nativeTheme.themeSource,
     isDark: nativeTheme.shouldUseDarkColors,
   }),
+);
+
+ipcMain.on('cannot-open-file', async (event, initFile?: FileIdentifier & FileData) => {
+  const file = initFile ?? (await openFile());
+  if (file == null) return;
+
+  const newWindow = createWindow();
+
+  if (isMac) {
+    newWindow.setRepresentedFilename(file.path);
+  }
+
+  newWindow.on('ready-to-show', () => {
+    newWindow.webContents.send('request-open-file', file);
+  });
+});
+
+ipcMain.handle('open-file', async (event, encoding: string) => {
+  const window = BrowserWindow.fromWebContents(event.sender);
+  const file = await openFile(encoding);
+  if (file == null || window == null) return;
+
+  if (isMac) {
+    window.setRepresentedFilename(file.path);
+  }
+
+  return file;
+});
+
+ipcMain.handle(
+  'save-file',
+  async (event, file: Partial<FileIdentifier> & FileData, encoding: string) => {
+    const window = BrowserWindow.fromWebContents(event.sender);
+    if (window == null) return;
+    const fileIdentifier = await saveFile(window, file, encoding);
+    if (fileIdentifier == null) return;
+
+    if (isMac) {
+      window.setRepresentedFilename(fileIdentifier.path);
+    }
+
+    return fileIdentifier;
+  },
 );
 
 nativeTheme.on('updated', () => {

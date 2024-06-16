@@ -1,5 +1,4 @@
 import { Menu, type MenuItemConstructorOptions } from 'electron';
-
 import { createWindow } from './index.js';
 
 const isMac = process.platform === 'darwin';
@@ -19,15 +18,18 @@ export function createMenu(): Menu {
         {
           label: 'Open...',
           accelerator: 'CmdOrCtrl+O',
+          click: (item, window) => window?.webContents.send('request-open-file'),
         },
         { type: 'separator' },
         {
           label: 'Save',
           accelerator: 'CmdOrCtrl+S',
+          click: (item, window) => window?.webContents.send('request-save-file', false),
         },
         {
           label: 'Save As...',
           accelerator: 'CmdOrCtrl+Shift+S',
+          click: (item, window) => window?.webContents.send('request-save-file', true),
         },
         { type: 'separator' },
         {
