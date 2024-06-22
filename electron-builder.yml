@@ -19,5 +19,4 @@ linux:
 npmRebuild: false
 publish:
   provider: github
-  releaseType: release
   publishAutoUpdate: false
