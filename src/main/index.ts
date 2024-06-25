@@ -52,6 +52,21 @@ export function createWindow(): BrowserWindow {
   return mainWindow;
 }
 
+export async function createWindowWithFile(initFile?: FileIdentifier & FileData): Promise<void> {
+  const file = initFile ?? (await openFile());
+  if (file == null) return;
+
+  const newWindow = createWindow();
+
+  if (isMac) {
+    newWindow.setRepresentedFilename(file.path);
+  }
+
+  newWindow.on('ready-to-show', () => {
+    newWindow.webContents.send('request-open-file', file);
+  });
+}
+
 app.whenReady().then(() => {
   Menu.setApplicationMenu(createMenu());
   createWindow();
@@ -84,19 +99,8 @@ ipcMain.handle(
   }),
 );
 
-ipcMain.on('cannot-open-file', async (event, initFile?: FileIdentifier & FileData) => {
-  const file = initFile ?? (await openFile());
-  if (file == null) return;
-
-  const newWindow = createWindow();
-
-  if (isMac) {
-    newWindow.setRepresentedFilename(file.path);
-  }
-
-  newWindow.on('ready-to-show', () => {
-    newWindow.webContents.send('request-open-file', file);
-  });
+ipcMain.on('cannot-open-file', (event, initFile?: FileIdentifier & FileData) => {
+  createWindowWithFile(initFile);
 });
 
 ipcMain.handle('open-file', async (event, encoding: Encoding) => {
