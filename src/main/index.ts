@@ -102,7 +102,9 @@ ipcMain.on('cannot-open-file', async (event, initFile?: FileIdentifier & FileDat
 ipcMain.handle('open-file', async (event, encoding: Encoding) => {
   const window = BrowserWindow.fromWebContents(event.sender);
   const file = await openFile(encoding);
-  if (file == null || window == null) return;
+  if (file == null || window == null) {
+    return;
+  }
 
   if (isMac) {
     window.setRepresentedFilename(file.path);

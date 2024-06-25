@@ -5,12 +5,12 @@ import type { EOL, Indent, Lang } from './App.jsx';
 import * as styles from './Editor.css.js';
 
 type Props = {
-  initValue: string;
+  value: string;
   indent: Indent;
   eol: EOL;
   lang: Lang;
   theme: Theme;
-  onChange: (e: monaco.editor.IModelContentChangedEvent, value: string) => void;
+  onChange: (value: string) => void;
 };
 
 const Editor: Component<Props> = (props) => {
@@ -27,14 +27,24 @@ const Editor: Component<Props> = (props) => {
       autoDetectHighContrast: false,
     });
 
-    editor.onDidChangeModelContent((e) => props.onChange(e, editor.getValue()));
+    editor.onDidChangeModelContent((e) => {
+      if (!e.isFlush) {
+        props.onChange(editor.getValue());
+      }
+    });
+
     editor.focus();
   });
 
-  createEffect(() => editor.setValue(props.initValue));
   createEffect(() => editor.updateOptions({ tabSize: props.indent }));
   createEffect(() => editor.updateOptions({ theme: props.theme.isDark ? 'vs-dark' : 'vs' }));
   createEffect(() => editor.getModel()?.setEOL(monaco.editor.EndOfLineSequence[props.eol]));
+
+  createEffect(() => {
+    if (editor.getValue() !== props.value) {
+      editor.setValue(props.value);
+    }
+  });
 
   createEffect(() => {
     const model = editor.getModel();

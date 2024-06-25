@@ -7,7 +7,8 @@ import {
   createSignal,
   lazy,
 } from 'solid-js';
-import type { Encoding, FileIdentifier } from '../../../types/file.js';
+import { createStore } from 'solid-js/store';
+import type { Encoding, FileData, FileIdentifier } from '../../../types/file.js';
 import type { Theme, ThemeSource } from '../../../types/theme.js';
 import * as styles from './App.css.js';
 import StatusBar from './StatusBar.jsx';
@@ -78,12 +79,10 @@ export const themeSourceOptions: Record<ThemeSource, string> = {
 
 const App: Component = () => {
   let modified = false;
-  let filePath: string | undefined;
-  let content: string;
-
-  const [title, setTitle] = createSignal('Untitled');
   const [isSaved, setSaved] = createSignal(true);
-  const [initContent, setInitContent] = createSignal('');
+  const [currentFile, setCurrentFile] = createStore<Partial<FileIdentifier> & FileData>({
+    content: '',
+  });
 
   const [indent, setIndent] = createSignal<Indent>(4);
   const [eol, setEOL] = createSignal<EOL>('LF');
@@ -98,7 +97,7 @@ const App: Component = () => {
   });
 
   createEffect(() => {
-    document.title = title() + (isSaved() ? '' : ' *');
+    document.title = (currentFile.name ?? 'Untitled') + (isSaved() ? '' : ' *');
   });
 
   window.electron.updateTheme(() => refetch());
@@ -113,31 +112,37 @@ const App: Component = () => {
     if (file == null) return;
 
     modified = true;
-    filePath = file.path;
-    setInitContent(file.content);
-    setTitle(file.name);
+    setCurrentFile('path', file.path);
+    setCurrentFile('name', file.name);
+    setCurrentFile('content', file.content);
   });
 
   window.electron.requestSaveFile(async (newFile) => {
     let file: FileIdentifier | undefined;
-    if (!newFile && filePath != null) {
-      file = await window.electron.saveFile({ path: filePath, content: content }, encoding());
+    if (!newFile && currentFile.path != null) {
+      file = await window.electron.saveFile(
+        {
+          path: currentFile.path,
+          content: currentFile.content,
+        },
+        encoding(),
+      );
     } else {
-      file = await window.electron.saveFile({ content: content }, encoding());
+      file = await window.electron.saveFile({ content: currentFile.content }, encoding());
     }
-    if (file?.name == null || file?.path == null) return;
+    if (file?.name == null || file?.path == null) {
+      return;
+    }
 
-    filePath = file.path;
     setSaved(true);
-    setTitle(file.name);
+    setCurrentFile('path', file.path);
+    setCurrentFile('name', file.name);
   });
 
-  const handleEditorChange = (e: monaco.editor.IModelContentChangedEvent, value: string) => {
-    if (!e.isFlush) {
-      modified = true;
-      content = value;
-      setSaved(false);
-    }
+  const handleEditorChange = (value: string) => {
+    modified = true;
+    setSaved(false);
+    setCurrentFile('content', value);
   };
 
   const handleIndentChange: JSX.EventHandler<HTMLSelectElement, Event> = (e) => {
@@ -163,7 +168,7 @@ const App: Component = () => {
   return (
     <div class={styles.root}>
       <Editor
-        initValue={initContent()}
+        value={currentFile.content}
         indent={indent()}
         eol={eol()}
         lang={lang()}
