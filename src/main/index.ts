@@ -88,7 +88,9 @@ app.on('window-all-closed', () => {
 
 ipcMain.on('set-theme-source', (event, source: ThemeSource) => {
   nativeTheme.themeSource = source;
-  BrowserWindow.getAllWindows().forEach((e) => e.webContents.send('update-theme'));
+  for (const window of BrowserWindow.getAllWindows()) {
+    window.webContents.send('update-theme');
+  }
 });
 
 ipcMain.handle(
@@ -134,5 +136,7 @@ ipcMain.handle(
 );
 
 nativeTheme.on('updated', () => {
-  BrowserWindow.getAllWindows().forEach((e) => e.webContents.send('update-theme'));
+  for (const window of BrowserWindow.getAllWindows()) {
+    window.webContents.send('update-theme');
+  }
 });

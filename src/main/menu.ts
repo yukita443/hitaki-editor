@@ -28,11 +28,13 @@ export function createMenu(): Menu {
         },
         { type: 'separator' },
         {
+          id: 'save',
           label: 'Save',
           accelerator: 'CmdOrCtrl+S',
           click: (item, window) => window?.webContents.send('request-save-file', false),
         },
         {
+          id: 'save-as',
           label: 'Save As...',
           accelerator: 'CmdOrCtrl+Shift+S',
           click: (item, window) => window?.webContents.send('request-save-file', true),
@@ -54,11 +56,10 @@ export function createMenu(): Menu {
 }
 
 export function setMenuEnabled(enabled: boolean) {
-  Menu.getApplicationMenu()?.items.forEach((item) => {
-    item.submenu?.items
-      .filter((e) => ['Save', 'Save As...'].includes(e.label))
-      .forEach((e) => {
-        e.enabled = enabled;
-      });
-  });
+  const items = ['save', 'save-as']
+    .map((s) => Menu.getApplicationMenu()?.getMenuItemById(s))
+    .filter((e) => e != null);
+  for (const item of items) {
+    item.enabled = enabled;
+  }
 }

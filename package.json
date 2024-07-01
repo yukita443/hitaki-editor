@@ -22,7 +22,7 @@
     "release": "npm run build && electron-builder --publish always"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.3",
+    "@biomejs/biome": "1.8.3",
     "@iconify-icon/solid": "^2.1.1",
     "@iconify-icons/material-symbols": "^1.2.58",
     "@tsconfig/node22": "^22.0.0",
