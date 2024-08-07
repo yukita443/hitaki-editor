@@ -1,7 +1,7 @@
 import { Icon } from '@iconify-icon/solid';
-import expandIcon from '@iconify-icons/material-symbols/expand-all.js';
+import expandIcon from '@iconify-icons/material-symbols/expand-all';
 import { type Component, Index, type JSX } from 'solid-js';
-import * as styles from './Select.css.js';
+import * as styles from './Select.css';
 
 type Props<T> = {
   label?: string;

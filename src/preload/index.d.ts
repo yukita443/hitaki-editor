@@ -1,5 +1,5 @@
-import type { Encoding, FileData, FileIdentifier } from '../types/file.ts';
-import type { Theme, ThemeSource } from '../types/theme.ts';
+import type { Encoding, FileData, FileIdentifier } from '../types/file';
+import type { Theme, ThemeSource } from '../types/theme';
 
 declare global {
   interface Window {

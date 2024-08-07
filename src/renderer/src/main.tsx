@@ -1,7 +1,7 @@
 import 'ress';
-import './index.css.js';
-import './worker.js';
+import './index.css';
+import './worker';
 import { render } from 'solid-js/web';
-import App from './components/App.jsx';
+import App from './components/App';
 
 render(() => <App />, document.getElementById('root') as HTMLElement);

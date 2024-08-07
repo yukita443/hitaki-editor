@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css';
-import { vars } from '../index.css.js';
+import { vars } from '../index.css';
 
 export const root = style({
   borderTop: `solid 1px ${vars.color.border}`,

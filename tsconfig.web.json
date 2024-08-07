@@ -10,6 +10,8 @@
   "compilerOptions": {
     "composite": true,
     "lib": ["ES2023", "DOM"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "jsx": "preserve",
     "jsxImportSource": "solid-js"
   }

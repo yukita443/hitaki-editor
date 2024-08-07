@@ -1,8 +1,8 @@
 import * as monaco from 'monaco-editor';
 import { type Component, createEffect, onCleanup, onMount } from 'solid-js';
-import type { Theme } from '../../../types/theme.js';
-import type { EOL, Indent, Lang } from './App.jsx';
-import * as styles from './Editor.css.js';
+import type { Theme } from '../../../types/theme';
+import type { EOL, Indent, Lang } from './App';
+import * as styles from './Editor.css';
 
 type Props = {
   value: string;

@@ -1,6 +1,6 @@
 import type { Component, JSX } from 'solid-js';
-import type { Encoding } from '../../../types/file.js';
-import type { Theme } from '../../../types/theme.js';
+import type { Encoding } from '../../../types/file';
+import type { Theme } from '../../../types/theme';
 import {
   type EOL,
   type Indent,
@@ -10,9 +10,9 @@ import {
   indentOptions,
   langOptions,
   themeSourceOptions,
-} from './App.jsx';
-import Select from './Select.jsx';
-import * as styles from './StatusBar.css.js';
+} from './App';
+import Select from './Select';
+import * as styles from './StatusBar.css';
 
 type Props = {
   indent: Indent;
