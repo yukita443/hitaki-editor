@@ -1,7 +1,7 @@
 import * as monaco from 'monaco-editor';
 import { type Component, createEffect, onCleanup, onMount } from 'solid-js';
 import type { Theme } from '../../../types/theme';
-import type { EOL, Indent, Lang } from './App';
+import type { EOL, Indent, Lang } from '../App';
 import * as styles from './Editor.css';
 
 type Props = {
@@ -14,7 +14,7 @@ type Props = {
 };
 
 const Editor: Component<Props> = (props) => {
-  let editorRef: HTMLDivElement;
+  let editorRef!: HTMLDivElement;
   let editor: monaco.editor.IStandaloneCodeEditor;
 
   onMount(() => {
@@ -55,8 +55,7 @@ const Editor: Component<Props> = (props) => {
 
   onCleanup(() => editor.dispose());
 
-  // biome-ignore lint/style/noNonNullAssertion: https://docs.solidjs.com/configuration/typescript#ref-attribute
-  return <div class={styles.root} ref={editorRef!} />;
+  return <div class={styles.root} ref={editorRef} />;
 };
 
 export default Editor;

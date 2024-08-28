@@ -8,12 +8,12 @@ import {
   lazy,
 } from 'solid-js';
 import { createStore } from 'solid-js/store';
-import type { Encoding, FileData, FileIdentifier } from '../../../types/file';
-import type { Theme, ThemeSource } from '../../../types/theme';
+import type { Encoding, FileData, FileIdentifier } from '../../types/file';
+import type { Theme, ThemeSource } from '../../types/theme';
 import * as styles from './App.css';
-import StatusBar from './StatusBar';
+import StatusBar from './components/StatusBar';
 
-const Editor = lazy(() => import('./Editor'));
+const Editor = lazy(() => import('./components/Editor'));
 
 export type Indent = (typeof indentOptions)[number];
 export type EOL = keyof typeof monaco.editor.EndOfLineSequence;

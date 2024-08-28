@@ -1,7 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
 export const root = style({
-  overflow: 'hidden',
-
   gridRow: 1,
+  overflow: 'hidden',
 });

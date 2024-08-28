@@ -1,6 +1,6 @@
 import { Icon } from '@iconify-icon/solid';
 import expandIcon from '@iconify-icons/material-symbols/expand-all';
-import { type Component, Index, type JSX } from 'solid-js';
+import { type Component, Index, type JSX, Show } from 'solid-js';
 import * as styles from './Select.css';
 
 type Props<T> = {
@@ -14,7 +14,9 @@ type Props<T> = {
 const Select: Component<Props<number | string>> = (props) => {
   return (
     <div class={styles.root}>
-      {props.label}
+      <Show when={props.label != null}>
+        <span>{props.label}</span>
+      </Show>
       <select class={styles.inner[props.size]} onChange={props.onChange}>
         <Index each={props.each}>
           {(e) => (

@@ -11,7 +11,7 @@ export async function openFile(
 
   const filePath = result.filePaths[0];
 
-  let buffer!: Buffer;
+  let buffer: Buffer;
   try {
     buffer = await fs.readFile(filePath);
   } catch (error) {
@@ -21,8 +21,8 @@ export async function openFile(
         message: `Can't open \`${path.basename(filePath)}\``,
         detail: error.message,
       });
-      return;
     }
+    return;
   }
 
   return {

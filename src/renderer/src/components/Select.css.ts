@@ -15,10 +15,9 @@ export const root = style({
 });
 
 const innerBase = style({
-  color: 'inherit',
-
-  paddingLeft: 6,
   height: '100%',
+  paddingLeft: 6,
+  color: 'inherit',
 
   selectors: {
     '&:hover': {
@@ -34,9 +33,8 @@ export const inner = styleVariants({
 });
 
 export const icon = style({
-  fontSize: 14,
-  pointerEvents: 'none',
-
   position: 'absolute',
   right: 2,
+  fontSize: 14,
+  pointerEvents: 'none',
 });

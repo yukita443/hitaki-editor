@@ -10,7 +10,7 @@ import {
   indentOptions,
   langOptions,
   themeSourceOptions,
-} from './App';
+} from '../App';
 import Select from './Select';
 import * as styles from './StatusBar.css';
 
